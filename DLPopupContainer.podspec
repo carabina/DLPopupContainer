@@ -9,5 +9,4 @@ Pod::Spec.new do |s|
   s.source_files = "DLPopupContainer", "DLPopupContainer/**/*.{h,m}"
   s.frameworks   = "UIKit", "Foundation"
   s.ios.deployment_target = '8.0'
-  s.tvos.deployment_target = '8.0'
 end

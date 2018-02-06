@@ -107,7 +107,7 @@ static const DLPopupContainerLayout DLPopupContainerLayoutCenter = {DLPopupConta
         
         [self addSubview:_backgroundView];
         [self addSubview:_containerView];
-#if !TARGET_OS_TV
+
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didChangeStatusBarOrientation:)
                                                      name:UIApplicationDidChangeStatusBarFrameNotification
@@ -123,7 +123,6 @@ static const DLPopupContainerLayout DLPopupContainerLayoutCenter = {DLPopupConta
                                                  selector:@selector(keyboardDidHide:)
                                                      name:UIKeyboardDidHideNotification
                                                    object:nil];
-#endif
     }
     return self;
 }
@@ -1011,7 +1010,6 @@ static const DLPopupContainerLayout DLPopupContainerLayoutCenter = {DLPopupConta
 
 - (void)updateForInterfaceOrientation
 {
-#if !TARGET_OS_TV
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     CGFloat angle;
     
@@ -1034,7 +1032,7 @@ static const DLPopupContainerLayout DLPopupContainerLayoutCenter = {DLPopupConta
     
     self.transform = CGAffineTransformMakeRotation(angle);
     self.frame = self.window.bounds;
-#endif
+
 }
 
 
@@ -1045,7 +1043,6 @@ static const DLPopupContainerLayout DLPopupContainerLayoutCenter = {DLPopupConta
     [self updateForInterfaceOrientation];
 }
 
-#if !TARGET_OS_TV
 - (void)keyboardDidShow:(NSNotification *)notification
 {
     CGRect keyboardRect;
@@ -1057,18 +1054,16 @@ static const DLPopupContainerLayout DLPopupContainerLayoutCenter = {DLPopupConta
 - (void)keyboardDidHide:(NSNotification *)notification {
     _keyboardRect = CGRectZero;
 }
-#endif
+
 
 #pragma mark - Subclassing
 
 - (void)willStartShowing
 {
-#if !TARGET_OS_TV
     if (_shouldHandleKeyboard) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
     }
-#endif
 }
 
 
@@ -1086,15 +1081,12 @@ static const DLPopupContainerLayout DLPopupContainerLayoutCenter = {DLPopupConta
 
 - (void)didFinishDismissing
 {
-#if !TARGET_OS_TV
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-#endif
 }
 
 #pragma mark - Keyboard notification handlers
 
-#if !TARGET_OS_TV
 - (void)keyboardWillShowNotification:(NSNotification *)notification
 {
     [self moveContainerViewForKeyboard:notification up:YES];
@@ -1124,7 +1116,6 @@ static const DLPopupContainerLayout DLPopupContainerLayoutCenter = {DLPopupConta
     _containerView.frame = frame;
     [UIView commitAnimations];
 }
-#endif
 
 @end
 
